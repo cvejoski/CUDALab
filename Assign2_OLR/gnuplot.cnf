@@ -1,0 +1,40 @@
+# for performance comparison in ms
+set title "Linear Regression - CPU vs GPU (Training examples - 200, Test examples - 50)"
+set xlabel "Number of outputs" # add x-label
+set ylabel "Time (ms)" # add y-label
+set logscale x
+set logscale y
+set terminal postscript eps font 'Helvetica,16'
+set output './Performance.eps'
+plot "host_performance.dat" t "CPU" smooth bezier with lines, "./dev_performance.dat" t "GPU" smooth bezier with lines
+
+# for speedup
+set title "Linear Regression - CPU vs GPU Speed Ratio (Training examples - 200, Test examples - 50)"
+set xlabel "Dimensionality of data" # add x-label
+set ylabel "Speed Ratio (GPU/CPU)" # add y-label
+set logscale x
+set logscale y
+set terminal postscript eps font 'Helvetica,16'
+set output './Speedup.eps'
+plot "./speedup.dat" notitle smooth bezier with lines
+
+# for loss function
+set title "Linear Regression - Loss Function"
+set xlabel "Number of steps" # add x-label
+set ylabel "Error" # add y-label
+set xrange [0:23]
+set yrange [0:4]
+set terminal postscript eps font 'Helvetica,16'
+set output './LossFunction.eps'
+plot "./Results/loss.dat" u title "Loss Function" with line
+
+# for w0 and w
+set palette model RGB defined (0 "red", 1 "green", 2 "blue", 3 "black")
+set title "Linear Regression - w0 and w"
+set xlabel "x1" # add x-label
+set ylabel "x2" # add y-label
+set xrange [-5:5]
+set yrange [-5:5]
+set terminal postscript eps font 'Helvetica,16'
+set output './RegressionLines.eps'
+plot "./regression_lines" title "W0 and W" with lines

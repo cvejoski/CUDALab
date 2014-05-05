@@ -5,40 +5,46 @@
  *      Author: cve
  */
 
-
+#include <time.h>
 #include "src/OnLineLinearRegression.h"
 #include "src/DataSet.h"
 
-#define N_OUTPUTS 2
+#define N_OUTPUTS 1
 #define N_DIM 2
 #define N_TRAINING 200
 #define N_ITERATION 200
 #define N_TEST 50
-#define MEMORY host_memory_space
+#define MEMORY dev_memory_space
 
 int main(){
 
-	tensor<float, host_memory_space> w_0(extents[N_DIM][N_OUTPUTS]);
-	tensor<float, host_memory_space> b(extents[1][N_OUTPUTS]);
+	int i = 1;
+	do {
+		tensor<float, MEMORY> w_0(extents[N_DIM][i]);
+		tensor<float, MEMORY> b_0(extents[1][i]);
+		initialize_mersenne_twister_seeds(time(NULL));
+		add_rnd_normal(w_0);
+		add_rnd_normal(b_0);
 
-	add_rnd_normal(w_0);
-	add_rnd_normal(b);
+		DataSet<MEMORY> dsTrain(N_DIM, N_TRAINING, i, w_0, b_0);
+		dsTrain.createData();
 
-	DataSet<host_memory_space> ds(N_DIM, N_TRAINING, N_OUTPUTS, w_0, b);
-	ds.createData();
+		DataSet<MEMORY> dsTest(N_DIM, N_TEST, i, w_0, b_0);
+		dsTest.createData();
 
-	DataSet<host_memory_space> dsTest(N_DIM, N_TEST, N_OUTPUTS, w_0, b);
-	dsTest.createData();
-
-
-
-	OnLineLinearRegression<host_memory_space> o(0.0009, N_ITERATION, N_OUTPUTS, N_DIM);
-	o.fit(ds.getData(), ds.getLabels());
-
-	tensor<float, host_memory_space> pred = o.predict(dsTest.getData());
-	tensor<float, host_memory_space> result(dsTest.getLabels().shape());
-
-	apply_binary_functor(result, pred, dsTest.getLabels(), BF_SUBTRACT);
+		double time = 0.0;
+		for (int j = 0; j<=50; j++) {
+			{
+			OnLineLinearRegression<MEMORY> o(0.0009, N_ITERATION, i, N_DIM);
+			clock_t start = clock();
+			o.fit(dsTrain.getData(), dsTrain.getLabels());
+			o.predict(dsTest.getData());
+			time += (double)(clock()-start)/CLOCKS_PER_SEC;
+			}
+		}
+		cout<<i<<" "<<time/50<<endl;
+		i+=500;
+	} while (i<=10000);
 
 //	cout<<"RESULT\n"<<result<<endl;
 

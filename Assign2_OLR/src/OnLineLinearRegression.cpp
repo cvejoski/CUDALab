@@ -41,7 +41,7 @@ void OnLineLinearRegression<M>::fit(const tensor<float, M>& X, const tensor<floa
 		calcGradient(X, y, delta_w, delta_b);
 		update_wb(delta_w, delta_b);
 		//print loss function
-		cout<<c<<" "<<norm2(delta_w)<<endl;
+		//cout<<c<<" "<<norm2(delta_w)<<endl;
 		c++;
 	} while (!isConverging(0.0001, delta_w) && (c<=n_iter));
 }
@@ -110,6 +110,37 @@ tensor<float, M> OnLineLinearRegression<M>::getW(){
 template<typename M>
 tensor<float, M> OnLineLinearRegression<M>::getB(){
 	return this->b;
+}
+
+template<typename M>
+void OnLineLinearRegression<M>::saveLinesToFile(char* filename, const tensor<float, M>& w_0, const tensor<float, M>& b_0) {
+	tensor<float, host_memory_space> tmpW_0 = w_0;
+	tensor<float, host_memory_space> tmpB_0 = b_0;
+	tensor<float, host_memory_space> tmpW = w;
+	tensor<float, host_memory_space> tmpB = b;
+	ofstream fs(filename);
+
+	if (!fs){
+		cerr<<"Cannot open the output file."<<endl;
+		exit(1);
+	}
+
+
+	for (unsigned int i = 0; i<tmpW_0.shape(1); i++) {
+		for (unsigned int j = 0; j<tmpW_0.shape(0); j++)
+			fs<<tmpW_0(j, i)<< " ";
+		fs<<tmpB_0[i];
+		fs<<endl;
+	}
+
+	for (unsigned int i = 0; i<tmpW.shape(1); i++) {
+		for (unsigned int j = 0; j<tmpW.shape(0); j++)
+			fs<<tmpW(j, i)<< " ";
+		fs<<tmpB[i];
+		fs<<endl;
+	}
+
+	fs.close();
 }
 
 template<typename M>

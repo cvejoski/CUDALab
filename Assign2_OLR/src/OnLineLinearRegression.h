@@ -9,6 +9,7 @@
 #define ONLINELINEARREGRESSION_H_
 
 #include <sstream>
+#include <fstream>
 #include <iostream>
 #include <cuv.hpp>
 #include <stdlib.h>
@@ -58,6 +59,11 @@ public:
 	tensor<float, M> getB();
 
 	tensor<float, M> getW();
+
+	/**
+	 * Only outputs in file for 2D case
+	 */
+	void saveLinesToFile(char* filename, const tensor<float, M>& w_0, const tensor<float, M>& b_0);
 
 	virtual ~OnLineLinearRegression();
 };
