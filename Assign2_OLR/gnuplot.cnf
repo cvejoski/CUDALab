@@ -14,7 +14,7 @@ set xlabel "Dimensionality of data" # add x-label
 set ylabel "Speed Ratio (GPU/CPU)" # add y-label
 set logscale x
 set logscale y
-set terminal postscript eps font 'Helvetica,16'
+set terminal postscript eps enhanced color font 'Helvetica,10'
 set output './Speedup.eps'
 plot "./speedup.dat" notitle smooth bezier with lines
 
@@ -24,17 +24,17 @@ set xlabel "Number of steps" # add x-label
 set ylabel "Error" # add y-label
 set xrange [0:23]
 set yrange [0:4]
-set terminal postscript eps font 'Helvetica,16'
+set terminal postscript eps enhanced color font 'Helvetica,10'
 set output './LossFunction.eps'
 plot "./Results/loss.dat" u title "Loss Function" with line
 
 # for w0 and w
 set palette model RGB defined (0 "red", 1 "green", 2 "blue", 3 "black")
-set title "Linear Regression - w0 and w"
-set xlabel "x1" # add x-label
-set ylabel "x2" # add y-label
-set xrange [-5:5]
-set yrange [-5:5]
-set terminal postscript eps font 'Helvetica,16'
+set title "Linear Regression - w0 and w (Training Data #100, Test Data #30)"
+set xlabel "x" # add x-label
+set ylabel "y" # add y-label
+set xrange [0:1]
+set yrange [0:2]
+set terminal postscript eps enhanced color font 'Helvetica,10'
 set output './RegressionLines.eps'
-plot "./regression_lines" title "W0 and W" with lines
+plot (0.676981*x + 0.723326) title "W", (0.67479*x + 0.724492) title "W0", "./testData.dat" title "Test Data", "./trainData.dat" title "Train Data"

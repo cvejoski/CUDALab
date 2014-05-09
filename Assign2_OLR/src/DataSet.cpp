@@ -6,6 +6,9 @@
  */
 
 #include "DataSet.h"
+#include <iostream>
+
+using namespace std;
 
 template<typename M>
 DataSet<M>::DataSet() {
@@ -20,35 +23,40 @@ DataSet<M>::DataSet() {
 }
 
 template<typename M>
-DataSet<M>::DataSet(int n_dim, int n_data, int n_outputs, const tensor<float, M>& w,
-		const tensor<float, M>& b) {
+DataSet<M>::DataSet(int n_dim, int n_data, int n_outputs, tensor<float, M> w,
+		tensor<float, M> b) {
 
 	this->n_dim = n_dim;
 	this->n_data = n_data;
 	this->n_outputs = n_outputs;
 
-	this->X = tensor<float, M>(extents[n_data][n_dim]);
-	this->Y = tensor<float, M>(extents[n_data][n_outputs]);
+	this->X = new tensor<float, M>(extents[n_data][n_dim]);
+	this->Y = new tensor<float, M>(extents[n_data][n_outputs]);
 	this->w = w;
 	this->b = b;
 }
 
 template<typename M>
 void DataSet<M>::createData() {
-	initialize_mersenne_twister_seeds(time(NULL));
-	add_rnd_normal(X);
-	prod(Y, X, w, 'n', 'n', 1.f, 0.f);
-	matrix_plus_row(Y, b);
+	initialize_mersenne_twister_seeds(0);
+	tensor<float, M> error((*Y).shape());
+	error = 0.f;
+	add_rnd_normal(error);
+	error *= .05f;
+	fill_rnd_uniform(*X);
+	prod(*Y, *X, w, 'n', 'n', 1.f, 0.f);
+	matrix_plus_row(*Y, b);
+	(*Y) += error;
 }
 
 template<typename M>
 tensor<float, M> DataSet<M>::getData() {
-	return X;
+	return *X;
 }
 
 template<typename M>
 tensor<float, M> DataSet<M>::getLabels() {
-	return Y;
+	return *Y;
 }
 
 template<typename M>

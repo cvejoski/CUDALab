@@ -18,13 +18,13 @@ private:
 	int n_dim;
 	int n_data;
 	int n_outputs;
-	tensor<float, M> X;
-	tensor<float, M> Y;
+	tensor<float, M>* X;
+	tensor<float, M>* Y;
 	tensor<float, M> w;
 	tensor<float, M> b;
 public:
 	DataSet();
-	DataSet(int, int, int, const tensor<float, M>&, const tensor<float, M>&);
+	DataSet(int, int, int,  tensor<float, M>,  tensor<float, M>);
 	void createData();
 	tensor<float, M> getData();
 	tensor<float, M> getLabels();

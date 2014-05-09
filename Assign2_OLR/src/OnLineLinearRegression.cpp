@@ -41,9 +41,9 @@ void OnLineLinearRegression<M>::fit(const tensor<float, M>& X, const tensor<floa
 		calcGradient(X, y, delta_w, delta_b);
 		update_wb(delta_w, delta_b);
 		//print loss function
-		//cout<<c<<" "<<norm2(delta_w)<<endl;
+		cout<<c<<" "<<norm2(delta_w)<<endl;
 		c++;
-	} while (!isConverging(0.0001, delta_w) && (c<=n_iter));
+	} while (!isConverging(0.00001, delta_w) && (c<=n_iter));
 }
 
 template<typename M>
