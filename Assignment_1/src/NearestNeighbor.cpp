@@ -271,18 +271,19 @@ template<typename T, typename M>
 int** NearestNeighbor<T, M>::MisClassified(tensor<T, M>& O, tensor<T, M>& C) {
 	tensor<T, host_memory_space> original = O;
 	tensor<T, host_memory_space> classified = C;
+	//int result[309][2];
 	int** result = new int*[330];
-	for (int u = 0; u<330; u++)
-		result[u] = new int[2];
+	for (int i = 0; i<309; i++)
+		result[i] = new int[2];
 	int miss = 0;
 
 	cout<<"NUMBER OF RESULTS "<<classified.size();
 	for (unsigned int i = 0; i<classified.size(); i++) {
 		if (original[i] != classified[i]){
 			cout<<"Element number: "<<i<<" Original class: "<<original[i]<<" Classified: "<<classified[i]<<endl;
-			miss++;
 			result[miss][0] = i;
 			result[miss][1] = (int)classified[i];
+			miss++;
 		}
 	}
 	cout<<"Number of misclassification is "<<miss<<endl;
@@ -322,27 +323,31 @@ void NearestNeighbor<T, M>::saveCorrectIncorrect() {
 
 template<typename T, typename M>
 void NearestNeighbor<T, M>::exportMINST() {
-	int** miss = MisClassified(*testL, *testResultLab);
-	//for (int i = 0; i < 309; i++) {
-		tensor<T, M> t = (*testDS)[indices[7]];
-//		int l = miss[i][0];
-//		std::stringstream out;
-//		out << l;
-//		std::string a = out.str();
-//		l = miss[i][1];
-//		out<<l;
-//		std::string b = out.str();
+	int** miss;
+	miss = MisClassified(*testL, *testResultLab);
+	for (int i = 0; i < 309; i++) {
+		tensor<T, M> t = (*testDS)[indices[**(miss+i)]];
+		int l = (*testL)[**(miss+i)];
+		std::stringstream out;
+		out<<"rec_"<<**(miss+i)<<"_";
+		out << l;
+		std::string a = out.str();
+		l = *(*(miss+i)+1);
+		out<<"_clas_";
+		out<<l;
+		std::string b = out.str();
 
-		string filename = "Test_Record__clas_.ppm";
-		const char * c = filename.c_str();
+		string filename = "./Results/Minst/Test_Record_" + b + ".ppm";
+		const char* c = filename.c_str();
 		ofstream f(c);
-		for (int i = 0; i<t.shape(0); i++) {
+		f<<"P3\n28 28\n15\n";
+		for (unsigned int i = 0; i<t.shape(0); i++) {
 			f<<t[i]<<" ";
 			if (i%28 == 0 && i != 0)
 				f<<endl;
 		}
 		f.close();
-	//}
+	}
 		//cout<<"Element number: "<<miss[i][0]<<" Classified: "<<miss[i][1]<<endl;
 
 }
