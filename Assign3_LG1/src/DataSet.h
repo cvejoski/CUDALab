@@ -17,27 +17,28 @@ using namespace cuv;
 
 template<typename M>
 class DataSet {
+private:
 	int n_dim;
-		int n_data;
-		int n_classes;
+	int n_data;
+	int n_classes;
 
-		tensor<float, M> mean;
-		tensor<float, M> covariance;
-		tensor<float, M> X;
-		tensor<float, M> Y;
+	tensor<float, M> mean;
+	tensor<float, M> covariance;
+	tensor<float, M> X;
+	tensor<float, M> Y;
 
-	public:
-		DataSet();
-		DataSet(int, int, int,  tensor<float, M>,  tensor<float, M>);
-		void createData();
-		tensor<float, M> getData();
-		tensor<float, M> getLabels();
-		tensor<float, M> getMean();
-		tensor<float, M> getCovariance();
-		void getClassification(const tensor<float, M>& Y_predict);
-		void printData();
-		void printData(char*);
-		virtual ~DataSet();
+public:
+	DataSet();
+	DataSet(int, int, int,  tensor<float, M>,  tensor<float, M>);
+	void createData();
+	tensor<float, M> getData();
+	tensor<float, M> getLabels();
+	tensor<float, M> getMean();
+	tensor<float, M> getCovariance();
+	void getClassification(const tensor<float, M>& Y_predict);
+	void printData();
+	void printData(char*);
+	virtual ~DataSet();
 };
 
 #endif /* DATASET_H_ */

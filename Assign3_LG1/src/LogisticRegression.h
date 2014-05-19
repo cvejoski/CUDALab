@@ -94,6 +94,11 @@ private:
 	 */
 	void init();
 
+	/**
+	 * Number of mislcassified examples in training
+	 */
+	int missClassified(const tensor<float, M>& X, const tensor<float, M>& Y);
+
 public:
 	LogisticRegression();
 

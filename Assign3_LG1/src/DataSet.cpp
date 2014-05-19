@@ -92,8 +92,8 @@ void DataSet<M>::getClassification(const tensor<float, M>& Y_predict) {
 
 	apply_binary_functor(result, Y, Y_predict, BF_SUBTRACT);
 
-	ofstream cc("./Results/correctClassified4R.dat");
-	ofstream mc("./Results/missClassified4R.dat");
+	ofstream cc("./Results/correctClassifiedMINST.dat");
+	ofstream mc("./Results/missClassifiedMINST.dat");
 	if(!cc || !mc){
 		cerr<<"Cannot open the output file."<<endl;
 		exit(1);
