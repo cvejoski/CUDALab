@@ -24,6 +24,7 @@
 								<option id="gnu.c.compiler.option.debugging.level.131284121" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.457995095" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/local/cuda/include"/>
+									<listOptionValue builtIn="false" value="/home/stud/cve/git/CUDALab/CUDABase"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1026307550" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -32,6 +33,7 @@
 								<option id="gnu.cpp.compiler.option.debugging.level.189204932" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1096115754" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/local/cuda/include"/>
+									<listOptionValue builtIn="false" value="/home/stud/cve/git/CUDALab/CUDABase"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1343415420" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -39,6 +41,9 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.389498943" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
 								<option id="gnu.cpp.link.option.libs.1421437748" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="cuv"/>
+								</option>
+								<option id="gnu.cpp.link.option.paths.541016604" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CUDABase}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.93279930" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -49,6 +54,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.assembler.571526108" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler">
 								<option id="gnu.both.asm.option.include.paths.919342624" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/local/cuda/include"/>
+									<listOptionValue builtIn="false" value="/home/stud/cve/git/CUDALab/CUDABase"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.743535089" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -85,6 +91,9 @@
 								<option id="gnu.c.compiler.option.debugging.level.2036153582" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.927231421" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/local/cuda/include"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CUDABase}&quot;"/>
+									<listOptionValue builtIn="false" value="/home/stud/cve/git/CUDALab/Assign3_LG1"/>
+									<listOptionValue builtIn="false" value="/home/stud/cve/git/CUDALab/CUDABase"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1588657623" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -93,11 +102,17 @@
 								<option id="gnu.cpp.compiler.option.debugging.level.1130472589" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.368322234" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/local/cuda/include"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CUDABase}&quot;"/>
+									<listOptionValue builtIn="false" value="/home/stud/cve/git/CUDALab/Assign3_LG1"/>
+									<listOptionValue builtIn="false" value="/home/stud/cve/git/CUDALab/CUDABase"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1718051463" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.1806471544" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.965881785" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
+								<option id="gnu.cpp.link.option.paths.1608880581" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CUDABase}&quot;"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1868457285" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -107,6 +122,9 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.assembler.464542371" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler">
 								<option id="gnu.both.asm.option.include.paths.1309717224" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/local/cuda/include"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CUDABase}&quot;"/>
+									<listOptionValue builtIn="false" value="/home/stud/cve/git/CUDALab/Assign3_LG1"/>
+									<listOptionValue builtIn="false" value="/home/stud/cve/git/CUDALab/CUDABase"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.223900169" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -140,4 +158,12 @@
 		</scannerConfigBuildInfo>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/Assign3_LG1"/>
+		</configuration>
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/Assign3_LG1"/>
+		</configuration>
+	</storageModule>
 </cproject>

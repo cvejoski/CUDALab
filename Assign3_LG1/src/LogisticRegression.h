@@ -11,16 +11,19 @@
 #include <cuv.hpp>
 #include <iostream>
 
+#include "../../CUDABase/Algorithms/MLalgorithm.h"
+
 using namespace cuv;
 using namespace std;
 
 template<typename M>
-class LogisticRegression {
+class LogisticRegression : public MLalgorithm<M>{
 private:
 	int n_iter;
 	int n_dim;
 	int n_classes;
 	float l_rate;
+	float r_rate;
 
 	tensor<float, M> b;
 	tensor<float, M> w;
@@ -104,10 +107,11 @@ public:
 
 	/**
 	* The constructor takes all parameters of the algorithm
-	* @param learningrate the size of the gradient steps
+	* @param l_rate the size of the gradient steps
+	* @param r_rate influence of regularization term
 	* @param n_iter number of iterations to work for a given $X$
 	*/
-	LogisticRegression(float l_rate, int n_iter, int n_classes, int n_dim);
+	LogisticRegression(float l_rate, float r_rate, int n_iter, int n_classes, int n_dim);
 
 	/**
 	* The fit function only takes the training data and the targets.

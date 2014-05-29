@@ -13,13 +13,14 @@
 #include <iostream>
 #include <cuv.hpp>
 #include <stdlib.h>
-#include "OnLineLinearRegression.h"
+
+#include "../../CUDABase/MLalgorithm.h"
 
 using namespace std;
 using namespace cuv;
 
 template<typename M>
-class OnLineLinearRegression {
+class OnLineLinearRegression : public MLalgorithm<M>  {
 private:
 	int n_iter;
 	int n_dim;

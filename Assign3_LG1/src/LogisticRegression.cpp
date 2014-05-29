@@ -13,17 +13,19 @@ LogisticRegression<M>::LogisticRegression() {
 	this->n_dim = 0;
 	this->n_classes = 0;
 	this->l_rate = 0.0;
+	this->r_rate = 0.0;
 
 	this->b = NULL;
 	this->w = NULL;
 }
 
 template<typename M>
-LogisticRegression<M>::LogisticRegression(float l_rate, int n_iter, int n_classes, int n_dim) {
+LogisticRegression<M>::LogisticRegression(float l_rate, float r_rate, int n_iter, int n_classes, int n_dim) {
 	this->l_rate = l_rate;
 	this->n_iter = n_iter;
 	this->n_classes = n_classes;
 	this->n_dim = n_dim;
+	this->r_rate = r_rate;
 
 	this->w = tensor<float, M>(extents[n_dim][n_classes]);
 	this->b = tensor<float, M>(extents[n_classes]);
@@ -90,6 +92,7 @@ double LogisticRegression<M>::calcGradientDescent_2C(const tensor<float, M>& X, 
 
 	//calculatind delta b
 	reduce_to_row(d_b, linear_eq);
+
 
 	//update w and b
 	w -= l_rate * d_w / n_data;
@@ -280,3 +283,5 @@ LogisticRegression<M>::~LogisticRegression() {
 
 template class LogisticRegression<host_memory_space>;
 template class LogisticRegression<dev_memory_space>;
+//template class MLalgorithm<dev_memory_space>;
+//template class MLalgorithm<host_memory_space>;

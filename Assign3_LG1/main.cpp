@@ -60,7 +60,7 @@ int main() {
 	MnistDataSet<MEMORY> mnist(784, 60000, 10000, 10);
 	mnist.read();
 
-	LogisticRegression<MEMORY> reg(0.006, N_ITERATIONS, N_CLASSES, N_DIM);
+	LogisticRegression<MEMORY> reg(0.006, 0.0, N_ITERATIONS, N_CLASSES, N_DIM);
 
 
 	reg.fit(mnist.getX_train(), mnist.getY_train());

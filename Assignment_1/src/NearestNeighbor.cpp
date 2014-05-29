@@ -183,16 +183,19 @@ void NearestNeighbor<T, M>::calcDistanceMINST(tensor<T, M>& test, int start) {
 template<typename T, typename M>
 void NearestNeighbor<T, M>::classifiedMINST() {
 
-	tensor_view<T, M> tv1 = (*testDS)[indices[index_range(0, 3500)]];
+	tensor_view<T, M> tv1 = (*testDS)[indices[index_range(0, 3000)]];
 	tensor<T, M> t1 = tv1;
 	calcDistanceMINST(t1, 0);
 
-	tensor_view<T, M> tv2 = (*testDS)[indices[index_range(3500, 7000)]];
+	tensor_view<T, M> tv2 = (*testDS)[indices[index_range(3000, 6000)]];
 	tensor<T, M> t2 = tv2.copy();
-	calcDistanceMINST(t2, 3500);
-	tensor_view<T, M> tv3 = (*testDS)[indices[index_range(7000, 10000)]];
+	calcDistanceMINST(t2, 3000);
+	tensor_view<T, M> tv3 = (*testDS)[indices[index_range(6000, 9000)]];
 	tensor<T, M> t3 = tv3.copy();
-	calcDistanceMINST(t3, 7000);
+	calcDistanceMINST(t3, 6000);
+	tensor_view<T, M> tv4 = (*testDS)[indices[index_range(9000, 10000)]];
+	tensor<T, M> t4 = tv4.copy();
+	calcDistanceMINST(t4, 9000);
 
 	tensor<T, M> diff(extents[numTestD]);
 	apply_binary_functor(diff, *testL, *testResultLab, BF_SUBTRACT);
@@ -340,7 +343,7 @@ void NearestNeighbor<T, M>::exportMINST() {
 		string filename = "./Results/Minst/Test_Record_" + b + ".ppm";
 		const char* c = filename.c_str();
 		ofstream f(c);
-		f<<"P3\n28 28\n15\n";
+		f<<"P2\n28 28\n255\n";
 		for (unsigned int i = 0; i<t.shape(0); i++) {
 			f<<t[i]<<" ";
 			if (i%28 == 0 && i != 0)
