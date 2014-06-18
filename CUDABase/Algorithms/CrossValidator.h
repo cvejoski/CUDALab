@@ -11,7 +11,7 @@
 #include <cuv.hpp>
 #include <iostream>
 #include <vector>
-#include <Factoris/Factory.h>
+#include "../Factoris/Factory.h"
 
 using namespace std;
 using namespace cuv;
@@ -103,12 +103,7 @@ public:
 	 */
 	double predictWithError(const tensor<float, M>& X_test, const tensor<float, M>& Y_test);
 
-	/**
-	 * Get best model
-	 */
-	void printBestModel();
-
 	virtual ~CrossValidator();
 };
-
+#include "CrossValidator.cpp"
 #endif /* CROSSVALIDATOR_H_ */

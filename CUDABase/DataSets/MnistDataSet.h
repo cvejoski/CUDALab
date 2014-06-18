@@ -17,10 +17,17 @@ private:
 
 	tensor<float, M> X_test;
 	tensor<float, M> Y_test;
+
 	/**
 	 * In this method should be implemented how we want to create the data.
 	 */
 	void createData();
+
+	/**
+	 * Converts the data to binary
+	 */
+	tensor<float, M> convertToBinary(const tensor<float, M>& X);
+
 public:
 	MnistDataSet();
 
@@ -45,6 +52,17 @@ public:
 	 * @return tensor with test labels.
 	 */
 	tensor<float, M> getY_test();
+
+	/**
+	 * Get data binary.
+	 */
+	tensor<float, M> getX_binary();
+
+	/**
+	* Get data binary.
+	*/
+	tensor<float, M> getX_test_binary();
+
 	virtual ~MnistDataSet();
 };
 #include "MnistDataSet.cpp"

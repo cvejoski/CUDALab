@@ -5,50 +5,29 @@
  *      Author: cve
  */
 
-#include "DataSets/GaussianDataSet.h"
+#include "DataSets/MnistDataSet.h"
 #include "Algorithms/LogisticRegression.h"
+#include "Algorithms/NaiveBayes.h"
 
-
+#define MEMORY dev_memory_space
+#define N_DIM 784
+#define N_CLASSES 10
+#define N_ITERATIONS 200
 
 int main() {
 
+	initCUDA(1);
+	MnistDataSet<MEMORY> mnist(784, 60000, 10000, 10);
 
-	tensor<float, host_memory_space> mean(extents[2][2]);
-	mean[0] = 2.f;
-	mean[1] = 1.f;
-	mean[2] = 5.f;
-	mean[3] = 1.f;
-//	mean[4] = 2.f;
-//	mean[5] = 4.f;
-//	mean[6] = 5.f;
-//	mean[7] = 4.f;
+	LogisticRegression<MEMORY> lg(0.0001, 0.01, N_ITERATIONS, N_CLASSES, N_DIM);
+
+	lg.fit(mnist.getData(), mnist.getLabels());
 
 
 
-	tensor<float, host_memory_space> covariance(extents[2][2][2]);
-	covariance(0, 0, 0) = 1.f;
-	covariance(0, 1, 1) = 1.f;
-	covariance(0, 1, 0) = 0.f;
-	covariance(0, 0, 1) = 0.f;
-	covariance(1, 0, 0) = 1.f;
-	covariance(1, 1, 1) = 1.f;
-	covariance(1, 1, 0) = 0.f;
-	covariance(1, 0, 1) = 0.f;
-//	covariance(2, 0, 0) = 1.f;
-//	covariance(2, 1, 1) = 1.f;
-//	covariance(2, 1, 0) = 0.f;
-//	covariance(2, 0, 1) = 0.f;
-//	covariance(3, 0, 0) = 1.f;
-//	covariance(3, 1, 1) = 1.f;
-//	covariance(3, 1, 0) = 0.f;
-//	covariance(3, 0, 1) = 0.f;
-
-
-	GaussianDataSet<host_memory_space> train(2, 20, 2, covariance, mean);
-	train.printToScreen();
-
-	LogisticRegression<host_memory_space> m;
-
+	lg.plotLearnedWeights();
+	cout<<"Miss Classified # "<<lg.predictWithError(mnist.getX_test(), mnist.getY_test())<<endl;
+	cout<<"end"<<endl;
 
 	return 0;
 }

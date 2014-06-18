@@ -6,6 +6,7 @@
  */
 
 #include <DataSets/MnistDataSet.h>
+
 #include <Factoris/LorRegFactory.h>
 #include "src/CrossValidator.h"
 #include "src/CrossValidator.cpp"
@@ -13,7 +14,7 @@
 #define MEMORY dev_memory_space
 #define N_DIM 784
 #define N_CLASSES 10
-#define N_ITERATIONS 200
+#define N_ITERATIONS 100
 
 int main() {
 
@@ -55,7 +56,7 @@ int main() {
 		cout<<1.0/i<<endl;
 	}
 
-	MnistDataSet<MEMORY> mnist(784, 60000, 10000, 10);
+	MnistDataSet<MEMORY> mnist(784, 60000, 10000, 5);
 
 
 //	GaussianDataSet<MEMORY> train(N_DIM, 300, N_CLASSES, covariance, mean);
@@ -71,7 +72,9 @@ int main() {
 	m = new LogRegFactory<MEMORY>();
 	CrossValidator<MEMORY> c(l_rate, r_rate, N_CLASSES, N_ITERATIONS, 10, m);
 	c.fit(mnist.getData(), mnist.getLabels());
+
 	cout<<"ERRORS TEST DATA: "<<c.predictWithError(mnist.getX_test(), mnist.getY_test());
+	c.printBestModel();
 	return 0;
 }
 

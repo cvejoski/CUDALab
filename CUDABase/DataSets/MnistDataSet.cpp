@@ -38,6 +38,24 @@ tensor<float, M> MnistDataSet<M>::getY_test() {
 }
 
 template<typename M>
+tensor<float, M> MnistDataSet<M>::convertToBinary(const tensor<float, M>& X) {
+	tensor<float, M> result = X.copy();
+	result /= 255.f;
+	apply_scalar_functor(result, result, SF_GEQ, 0.5);
+	return result;
+}
+
+template<typename M>
+tensor<float, M> MnistDataSet<M>::getX_binary() {
+	return convertToBinary(this->X);
+}
+
+template<typename M>
+tensor<float, M> MnistDataSet<M>::getX_test_binary() {
+	return convertToBinary(this->X_test);
+}
+
+template<typename M>
 void MnistDataSet<M>::createData() {
 	std::string path = "/home/local/datasets/MNIST";
 	ifstream ftraind((path + "/train-images.idx3-ubyte").c_str());

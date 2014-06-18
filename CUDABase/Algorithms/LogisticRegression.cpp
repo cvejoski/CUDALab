@@ -280,6 +280,7 @@ template<typename M>
 void LogisticRegression<M>::printParamToScreen() {
 	cout<<"W: \n"<<getW()<<endl;
 	cout<<"B: \n"<<getB()<<endl;
+	plotLearnedWeights();
 }
 
 template<typename M>
@@ -287,6 +288,78 @@ double LogisticRegression<M>::predictWithError(const tensor<float, M>& X_test, c
 	double result = 0.0;
 	result = missClassified(X_test, Y_test);
 	return result;
+}
+
+template<typename M>
+void LogisticRegression<M>::plotLearnedWeights() {
+	float max;
+	float min;
+	tensor<float, M> weights(extents[n_dim+1][n_classes]);
+
+
+	weights[indices[index_range(0, n_dim)]] = w.copy();
+	weights[indices[index_range(n_dim, n_dim + 1)]] = b.copy();
+
+	cout<<weights<<endl;
+
+	max = maximum(weights);
+	min = minimum(weights);
+	weights -= min;
+
+	weights /= (max - min);
+
+
+	//cout<<"Normalization Weights \n"<<weights<<endl;
+	weights *= 255.f;
+	cout<<"MIN "<<min<<endl;
+	cout<<"MAX "<<max<<endl;
+	save_as_images(weights);
+}
+
+template <typename M>
+void LogisticRegression<M>::save_as_images(const tensor<float, M>& data) {
+	tensor<float, host_memory_space> data_host = data;
+	tensor<float, host_memory_space> row(extents[data.shape(0)]);
+	stringstream ss;
+
+	for (unsigned i = 0, ii = data.shape(1); i < ii; ++i) {
+		ss << i;
+		row = data_host[indices[index_range()][i]];
+
+		tensor<unsigned, host_memory_space> image = vector_to_image_matrix(row);
+
+		string filename = "./Results/LogReg/Test_Record_" + ss.str() + ".ppm";
+
+
+		const char* c = filename.c_str();
+		ofstream f(c);
+		f<<"P2\n28 28\n255\n";
+		for (unsigned int i = 0; i<image.shape(0); i++) {
+			for (unsigned int j = 0; j<image.shape(1); j++) {
+			f<<image(i,j)<<" ";
+			}
+			f<<endl;
+		}
+		f.close();
+
+		ss.str("");
+	}
+
+	std::cout << "Images saved.\n";
+}
+
+template<typename M>
+tensor<unsigned, host_memory_space> LogisticRegression<M>::vector_to_image_matrix(const tensor<float, host_memory_space>& vector) {
+	const unsigned resolution = 28;
+	tensor<unsigned, host_memory_space> image(extents[resolution][resolution]);
+
+	for (unsigned i = 0; i < resolution; ++i) {
+		for (unsigned j = 0; j < resolution; ++j) {
+			image(i, j) = vector[i * resolution + j];
+		}
+	}
+
+	return image;
 }
 
 template<typename M>

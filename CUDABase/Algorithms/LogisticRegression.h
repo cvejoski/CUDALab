@@ -8,12 +8,12 @@
 #ifndef LOGISTICREGRESSION_H_
 #define LOGISTICREGRESSION_H_
 
-#include <cuv.hpp>
-#include <iostream>
 #include "MLalgorithm.h"
 
-using namespace cuv;
-using namespace std;
+#include <fstream>
+#include <cstring>
+#include <sstream>
+#include <string>
 
 template<typename M>
 class LogisticRegression : public MLalgorithm<M> {
@@ -101,6 +101,9 @@ private:
 	 */
 	int missClassified(const tensor<float, M>& X, const tensor<float, M>& Y);
 
+	tensor<unsigned, host_memory_space> vector_to_image_matrix(const tensor<float, host_memory_space>& vector);
+	void save_as_images(const tensor<float, M>& data);
+
 public:
 	LogisticRegression();
 
@@ -149,7 +152,9 @@ public:
 	 */
 	double predictWithError(const tensor<float, M>& X_test, const tensor<float, M>& Y_test);
 
+	void plotLearnedWeights();
+
 	virtual ~LogisticRegression();
 };
-
+//#include "LogisticRegression.cpp"
 #endif /* LogisticRegression_H_ */

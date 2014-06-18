@@ -9,8 +9,10 @@
 #define MLALGORITHM_H_
 
 #include <cuv.hpp>
+#include <iostream>
 
 using namespace cuv;
+using namespace std;
 
 template<typename M>
 class MLalgorithm {

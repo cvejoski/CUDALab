@@ -141,11 +141,6 @@ double CrossValidator<M>::predictWithError(const tensor<float, M>& X_test, const
 }
 
 template<typename M>
-void CrossValidator<M>::printBestModel() {
-	bestModel->printParamToScreen();
-}
-
-template<typename M>
 CrossValidator<M>::~CrossValidator() {
 
 }
