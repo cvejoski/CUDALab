@@ -19,8 +19,7 @@ GaussianDataSet<M>::GaussianDataSet(const int& nDim, const int& nData, const int
 DataSet<M>::DataSet(nDim, nData, nClasses) {
 	this->covariance = covariance;
 	this->mean = mean;
-	this->X = tensor<float, M>(extents[nData][nDim]);
-	this->Y = tensor<float, M>(extents[nData][1]);
+
 	createData();
 }
 

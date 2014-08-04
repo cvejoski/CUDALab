@@ -56,8 +56,8 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="Algorithms|DataSets|Factoris" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry excluding="CrossValidator.cpp|NaiveBayes.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Algorithms"/>
-						<entry excluding="GaussianDataSet.cpp|MnistDataSet.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="DataSets"/>
+						<entry excluding="KernelClassification.cpp|OnLineLinearRegression.cpp|KernelRegression.cpp|CrossValidator.cpp|NaiveBayes.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Algorithms"/>
+						<entry excluding="XORDataSet.cpp|RegressionDataSetGaus.cpp|RegressionSigmoidDataSet.cpp|LinearDataSet.cpp|GaussianDataSet.cpp|MnistDataSet.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="DataSets"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Factoris"/>
 					</sourceEntries>
 				</configuration>
@@ -119,8 +119,8 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="Algorithms|DataSets|Factoris" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry excluding="CrossValidator.cpp|NaiveBayes.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Algorithms"/>
-						<entry excluding="GaussianDataSet.cpp|MnistDataSet.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="DataSets"/>
+						<entry excluding="KernelClassification.cpp|OnLineLinearRegression.cpp|KernelRegression.cpp|CrossValidator.cpp|NaiveBayes.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Algorithms"/>
+						<entry excluding="XORDataSet.cpp|RegressionDataSetGaus.cpp|RegressionSigmoidDataSet.cpp|LinearDataSet.cpp|GaussianDataSet.cpp|MnistDataSet.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="DataSets"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Factoris"/>
 					</sourceEntries>
 				</configuration>

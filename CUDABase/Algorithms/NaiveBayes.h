@@ -29,12 +29,12 @@ private:
 
 
 	/**
-		 * Convert data labels to binary class labels
-		 * @param n_data number of training data,
-		 * @param Y training data labels.
-		 * @return matrix #n_dataX#n_classes with binary classes
-		 */
-		tensor<float, M> convertToBinaryLabels(const tensor<float, M>& _Y);
+	* Convert data labels to binary class labels
+	* @param n_data number of training data,
+	* @param Y training data labels.
+	* @return matrix #n_dataX#n_classes with binary classes
+	*/
+	tensor<float, M> convertToBinaryLabels(const tensor<float, M>& _Y);
 
 	/**
 	 * Calculate class probability.

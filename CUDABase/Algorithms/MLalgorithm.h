@@ -43,6 +43,15 @@ public:
 	 * Implementation depends on the type of the algorithm.
 	 */
 	virtual void printParamToScreen() = 0;
+protected:
+	double averageLoss(const tensor<float, M>& Y, const tensor<float, M>& Y_predicted) {
+		double result = 0;
+		tensor<float, M> diff(Y.shape());
+		diff = Y - Y_predicted;
+		result =  sum(diff)/Y.shape(0);
+		return result;
+	}
+
 
 	virtual ~MLalgorithm() {
 

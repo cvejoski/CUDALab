@@ -51,6 +51,9 @@ public:
 		this->nDim = nDim;
 		this->nData = nData;
 		this->nClasses = nClasses;
+
+		this->X = tensor<float, M>(extents[nData][nDim]);
+		this->Y = tensor<float, M>(extents[nData][1]);
 	}
 
 	/**
@@ -90,19 +93,22 @@ public:
 	 * @param fileName location and name of the file
 	 * in witch you want the data to be exported.
 	 */
-	void printToFile(char* fileName) {
+	virtual void printToFile(char* fileName) {
 		ofstream fs(fileName);
 		if(!fs){
 			cerr<<"Cannot open the output file."<<endl;
 			exit(1);
 		}
 		int portion = nData/nClasses;
-		tensor<float, dev_memory_space> tmp = X;
+		tensor<float, host_memory_space> tmp = X;
+		tensor<float, host_memory_space> tmpY = Y;
+
 		for (int i = 0; i < this->nClasses; i++){
 			for (int j = i*portion; j < portion*(i+1); j++) {
 				for (int k = 0; k < this->nDim; k++)
 					fs<<X(j, k)<<" ";
-				fs<<i<<endl;
+				//fs<<i<<endl;
+				fs<<tmpY[j]<<endl;
 			}
 		}
 	}

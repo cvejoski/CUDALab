@@ -41,6 +41,7 @@ public:
 	 *@return stored mean.
 	 */
 	tensor<float, M> getMean();
+
 	virtual ~GaussianDataSet();
 };
 
