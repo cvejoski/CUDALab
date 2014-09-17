@@ -27,6 +27,11 @@ public:
 		apply_scalar_functor(result, result, SF_EXP);
 	}
 
+	void calculate(tensor<float, M>& result, const tensor<float, M>& X, const tensor<float, M>& O, const tensor<float, M>& B) {
+
+
+	}
+
 	virtual ~GaussianKernel() {
 
 	}

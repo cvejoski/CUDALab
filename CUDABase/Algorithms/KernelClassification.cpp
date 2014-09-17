@@ -89,16 +89,16 @@ double KernelClassification<M>::calcGradientDescent_2C(const tensor<float, M>& X
 	apply_scalar_functor(linear_eq, SF_SIGM);
 	matrix_plus_col(linear_eq, -1.f*Y);
 
-	//calcualting delta w
-	prod(d_alpha, gramMatrix, linear_eq, 'n', 'n', 2.f/X.shape(0), 0.f);
+	//calcualting delta a
+	prod(d_alpha, gramMatrix, linear_eq, 'n', 'n', 2.f/n_data, 0.f);
 
 	//calculatind delta b
-	reduce_to_row(d_b, linear_eq, RF_ADD, 2.f/X.shape(0));
+	reduce_to_row(d_b, linear_eq, RF_ADD, 2.f/n_data);
 
 
 	//update w and b
-	alpha -= l_rate * d_alpha / n_data + r_rate * this->alpha;
-	b -= l_rate * d_b / n_data + r_rate * b;
+	alpha -= l_rate * d_alpha  + r_rate * this->alpha;
+	b -= l_rate * d_b + r_rate * b;
 
 	return isConverging(0.008, d_alpha);
 }
@@ -120,17 +120,14 @@ double KernelClassification<M>::calcGradientDesc_MC(const tensor<float, M>& X, c
 	sigma = sigma - Y;
 
 	//calcualting delta w
-	prod(d_alpha, gramMatrix, sigma, 'n', 'n', 2.f/X.shape(0), 0.f);
+	prod(d_alpha, gramMatrix, sigma, 'n', 'n', 2.f/n_data, 0.f);
 
 	//calculatind delta b
-	reduce_to_row(d_b, sigma, RF_ADD, 2.f/X.shape(0));
-
-	d_alpha /= n_data;
-	d_b /= n_data;
+	reduce_to_row(d_b, sigma, RF_ADD, 2.f/n_data);
 
 	//update w and b
-	alpha -= l_rate * d_alpha + r_rate * alpha;
-	b -= l_rate * d_b + r_rate * b;
+	alpha -= l_rate * d_alpha + r_rate * alpha / n_data;
+	b -= l_rate * d_b + r_rate * b / n_data;
 
 	result = isConverging(0.001, d_alpha);
 
@@ -139,12 +136,10 @@ double KernelClassification<M>::calcGradientDesc_MC(const tensor<float, M>& X, c
 
 template<typename M>
 void KernelClassification<M>::init() {
-	initialize_mersenne_twister_seeds(time(NULL));
-	this->alpha = 0.f;
+		this->alpha = 0.f;
 	this->b = 0.f;
 	add_rnd_normal(alpha);
 	add_rnd_normal(b);
-
 	alpha *= .01f;
 	b *= .01f;
 }
@@ -162,13 +157,13 @@ void KernelClassification<M>::fit(const tensor<float, M>& X, const tensor<float,
 
 	do {
 		if (this->n_classes == 2)
-			con = calcGradientDescent_2C(X, Y);
+			calcGradientDescent_2C(X, Y);
 		else
-			con = calcGradientDesc_MC(X, Y_Multi);
+			 calcGradientDesc_MC(X, Y_Multi);
 //		miss = missClassified(X, Y);
 		cout<<"iter: "<<iter<<" "<<con<<" MissClass Train# "<<missClassified(X, Y)<<endl;
 		iter++;
-	} while ((iter < this->n_iter) && (con > 0.00001));
+	} while ((iter < this->n_iter) );
 }
 
 template<typename M>

@@ -21,6 +21,10 @@ public:
 		prod(result, X, O, 'n', 't', 1.f, 0.f);
 	}
 
+	void calculate(tensor<float, M>& result, const tensor<float, M>& X, const tensor<float, M>& O, const tensor<float, M>& B) {
+
+	}
+
 	virtual ~LinearKernel() {
 
 	}

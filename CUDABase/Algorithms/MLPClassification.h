@@ -1,12 +1,12 @@
 /*
- * KernelClassification.h
+ * MLPClassification.h
  *
- *  Created on: Jul 8, 2014
+ *  Created on: Aug 6, 2014
  *      Author: cve
  */
 
-#ifndef KERNELCLASSIFICATION_H_
-#define KERNELCLASSIFICATION_H_
+#ifndef MLPCLASSIFICATION_H_
+#define MLPCLASSIFICATION_H_
 
 #include <fstream>
 #include <cstring>
@@ -16,27 +16,28 @@
 #include "MLalgorithm.h"
 #include "Kernels/Kernel.h"
 
-using namespace cuv;
-using namespace std;
-
 template<typename M>
-class KernelClassification : public MLalgorithm<M> {
-
+class MLPClassification : public MLalgorithm<M> {
 private:
 	int n_iter;
 	int n_dim;
 	int n_classes;
+	int n_hidden_units;
+
 	float l_rate;
 	float r_rate;
 
 	Kernel<M> * kernel;
 
 	tensor<float, M> gramMatrix;
+
 	tensor<float, M> alpha;
+	tensor<float, M> beta;
 
-	tensor<float, M> X;
-
+	tensor<float, M> w;
 	tensor<float, M> b;
+
+	//tensor<float, M> X;
 
 	/**
 	 * We convert label matrix from 1 dim to 2 dim (n_data, n_classes)
@@ -49,22 +50,23 @@ private:
 	/**
 	 * Calculates g(x) for all classes for all instances
 	 * @param X all the instances
+	 * @param W weight matrix
 	 */
-	tensor<float, M> calcLinearEq(const tensor<float, M>& X);
+	void calcLinearEq(tensor<float, M>& result, const tensor<float, M>& X);
 
 	/**
 	 * Calculates sigma(g(x)) for the multiclass classification
 	 * @param linearEq modifiable callculated all linear equations
 	 *
 	 */
-	tensor<float, M> calcSigma(const tensor<float, M>& linearEq);
+	void calcSigma(tensor<float, M>& result, const tensor<float, M>& linearEq);
 
 	/**
 	 * Calculates sigma(g(x)) for the multiclass classification
 	 * @param linearEq modifiable callculated all linear equations
 	 *
 	 */
-	tensor<float, M> calcSigmaReduced(const tensor<float, M>& linearEq);
+	void calcSigmaReduced(tensor<float, M>& result, const tensor<float, M>& linearEq);
 
 	/**
 	 * Calculating gradient descent for multiclass
@@ -114,14 +116,14 @@ private:
 
 
 public:
-	KernelClassification();
+	MLPClassification();
 	/**
 	* The constructor takes all parameters of the algorithm
 	* @param l_rate the size of the gradient steps
 	* @param r_rate influence of regularization term
 	* @param n_iter number of iterations to work for a given $X$
 	*/
-	KernelClassification(float l_rate, float r_rate, int n_iter, int n_classes, int n_dim, Kernel<M>* kernel);
+	MLPClassification(float l_rate, float r_rate, int n_iter, int n_classes, int n_dim, int n_hidden_units, Kernel<M>* kernel);
 
 	/**
 	* The fit function only takes the training data and the targets.
@@ -143,6 +145,7 @@ public:
 	*/
 	void predict(const tensor<float, M>& X_test, char* fileName);
 
+	tensor<float, M> getW();
 
 	/**
 	* Returns the learned BIAS
@@ -154,6 +157,8 @@ public:
 	 * Returns the learned weights
 	 */
 	tensor<float, M> getAlpha();
+
+	tensor<float, M> getBeta();
 
 	/**
 	 * Print learned parameters
@@ -168,8 +173,7 @@ public:
 	 */
 	double predictWithError(const tensor<float, M>& X_test, const tensor<float, M>& Y_test);
 
-
-	virtual ~KernelClassification();
+	virtual ~MLPClassification();
 };
-#include "KernelClassification.cpp"
-#endif /* KERNELCLASSIFICATION_H_ */
+
+#endif /* MLPCLASSIFICATION_H_ */

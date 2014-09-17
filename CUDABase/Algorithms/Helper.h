@@ -10,6 +10,7 @@
 
 #include <cuv.hpp>
 #include <vector>
+#include <algorithm>
 
 using namespace cuv;
 using namespace std;
@@ -54,7 +55,25 @@ public:
 		destination = slice.copy();
 	}
 
-	//void getRandomSubgroup(tensor<float, M>& result_X, tensor<float, M>& result_Y, tensor<float, M>& source_X, tensor<float, M> source_Y)
+	void getRandomSubgroup(tensor<float, M>& result_X, tensor<float, M>& result_Y, const tensor<float, M>& source_X, const tensor<float, M> source_Y) {
+		vector<int> data;
+		for (unsigned i = 0; i < source_X.shape(0); i++) {
+			data.push_back(i);
+		}
+		tensor<float, host_memory_space> h_result_X(result_X.shape());
+		tensor<float, host_memory_space> h_result_Y(result_Y.shape());
+		tensor<float, host_memory_space> h_source_X = source_X.copy();
+		tensor<float, host_memory_space> h_source_Y = source_Y.copy();
+		random_shuffle(data.begin(), data.end());
+		for (unsigned int i = 0; i < result_X.shape(0); i++) {
+			tensor_view<float, host_memory_space> slice_X = h_source_X[indices[index_range(data.at(i), data.at(i)+1)]];
+			tensor_view<float, host_memory_space> slice_Y = h_source_Y[indices[index_range(data.at(i), data.at(i)+1)]];
+			h_result_X[indices[index_range(i, i + 1)]] = slice_X;
+			h_result_Y[indices[index_range(i, i + 1)]] = slice_Y;
+		}
+		result_X = h_result_X;
+		result_Y = h_result_Y;
+	}
 
 
 	virtual ~Helper() {

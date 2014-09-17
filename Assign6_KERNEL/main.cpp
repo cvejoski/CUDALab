@@ -9,6 +9,7 @@
 #include <DataSets/RegressionDataSetGaus.h>
 #include <DataSets/RegressionSigmoidDataSet.h>
 #include <DataSets/XORDataSet.h>
+#include <DataSets/MnistDataSet.h>
 
 #include <Algorithms/Kernels/GaussianKernel.h>
 #include <Algorithms/Kernels/LinearKernel.h>
@@ -17,12 +18,16 @@
 #include <Algorithms/KernelClassification.h>
 #include <Algorithms/KernelRegression.h>
 #include <Algorithms/OnLineLinearRegression.h>
+#include <Algorithms/CrossValidator.h>
+#include <Algorithms/Helper.h>
+
+#include <Factoris/KernelClassificationFactory.h>
 
 #define N_OUTPUTS 3
 #define N_DIM 2
-#define N_TRAINING 200
-#define N_ITERATION 8000
-#define N_TEST 1000
+#define N_TRAINING 1000
+#define N_ITERATION 5000
+#define N_TEST 500
 #define MEMORY dev_memory_space
 
 
@@ -33,12 +38,14 @@ void gaussianClassification();
 void sigmoidClassification();
 void gaussianClassificationM();
 void sigmoidClassificationM();
+void mnistClassification();
 
 int main() {
 
 	initCUDA(0);
 	initialize_mersenne_twister_seeds(0);
-	gaussianClassificationM();
+	//mnistClassification();
+	 sigmoidClassificationM();
 	return 0;
 }
 
@@ -148,3 +155,4 @@ void sigmoidClassificationM() {
 
 	kernelClassification.predict(xorTest.getData(),"./Results/KernelClassification/Sigmoid_predictedM.dat");
 }
+

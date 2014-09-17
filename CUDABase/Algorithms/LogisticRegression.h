@@ -156,5 +156,5 @@ public:
 
 	virtual ~LogisticRegression();
 };
-//#include "LogisticRegression.cpp"
+#include "LogisticRegression.cpp"
 #endif /* LogisticRegression_H_ */

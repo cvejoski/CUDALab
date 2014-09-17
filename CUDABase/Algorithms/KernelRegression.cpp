@@ -81,11 +81,11 @@ void KernelRegression<M>::calcGradient(const tensor<float, M>& X, const tensor<f
 	prod(delta_alpha, gramMatrix, tmpResult, 'n', 'n', 2.f/X.shape(0), 0.f);
 
 	//calculating gradient descent for the bias
-	reduce_to_row(delta_b, tmpResult, RF_ADD, 2.f/X.shape(0));
+ 	reduce_to_row(delta_b, tmpResult, RF_ADD, 2.f/X.shape(0));
 
 	//regularization
 	delta_alpha += 2.f * this->alpha * this->r_rate;
-	delta_alpha += 2.f * this->alpha * this->r_rate;
+	delta_b += 2.f * this->b * this->r_rate;
 
 	//update alpha and b
 	alpha -= delta_alpha * l_rate;
@@ -98,10 +98,12 @@ tensor<float, M> KernelRegression<M>::predict(const tensor<float, M>& X_test) {
 	tensor<float, M> result(extents[X_test.shape(0)][n_outputs]);
 	tensor<float, M> result_t(extents[n_outputs][X_test.shape(0)]);
 	gramMatrix = tensor<float, M>(extents[X.shape(0)][X_test.shape(0)]);
+
 	kernel->calculate(gramMatrix, X, X_test);
 	prod(result_t, alpha, gramMatrix, 't', 'n', 1.f, 0.f);
 	transpose(result, result_t);
 	matrix_plus_row(result, b);
+
 	return result;
 }
 

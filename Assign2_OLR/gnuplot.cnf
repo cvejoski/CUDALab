@@ -10,11 +10,11 @@ plot "host_performance.dat" t "CPU" smooth bezier with lines, "./dev_performance
 
 # for speedup
 set title "Linear Regression - CPU vs GPU Speed Ratio (Training examples - 200, Test examples - 50)"
-set xlabel "Dimensionality of data" # add x-label
+set xlabel "Number of outputs" # add x-label
 set ylabel "Speed Ratio (GPU/CPU)" # add y-label
 set logscale x
 set logscale y
-set terminal postscript eps enhanced color font 'Helvetica,10'
+set terminal postscript eps enhanced color font 'Helvetica, 16'
 set output './Speedup.eps'
 plot "./speedup.dat" notitle smooth bezier with lines
 

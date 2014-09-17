@@ -1,5 +1,5 @@
 /*
- * LogisticRegression.cpp
+e * LogisticRegression.cpp
  *
  *  Created on: May 16, 2014
  *      Author: Kostadin Cvejoski
@@ -334,6 +334,7 @@ void LogisticRegression<M>::save_as_images(const tensor<float, M>& data) {
 		const char* c = filename.c_str();
 		ofstream f(c);
 		f<<"P2\n28 28\n255\n";
+
 		for (unsigned int i = 0; i<image.shape(0); i++) {
 			for (unsigned int j = 0; j<image.shape(1); j++) {
 			f<<image(i,j)<<" ";

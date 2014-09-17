@@ -25,6 +25,7 @@ private:
 
 	vector<float> l_rates;
 	vector<float> r_rates;
+	vector<float> sigma;
 
 	MLalgorithm<M> * bestModel;
 	Factory<M> * factory;
@@ -63,6 +64,16 @@ private:
 			const tensor<float, M>& Y, vector<MLalgorithm<M> *>& models);
 
 	/**
+	 * Creates a model for every hyper parameter.
+	 * @param X test data,
+	 * @param meanError stores the average error from the k fold,
+	 * @param Y labels,
+	 * @param models store learned models.
+	 */
+	void fitHyperParamethersSigma(const tensor<float, M>& X, vector<float>& meanError,
+			const tensor<float, M>& Y, vector<MLalgorithm<M> *>& models);
+
+	/**
 	 * Find best model among all models.
 	 * @param meanError for all models,
 	 * @param models all learned models,
@@ -83,10 +94,28 @@ public:
 	CrossValidator(const vector<float>& l_rates, const vector<float>& r_rates, const unsigned& nClasses, const unsigned& nIterations, const unsigned& k_fold, Factory<M> * factory);
 
 	/**
+	* The constructor takes all parameters of the algorithm
+	* @param l_rate the size of the gradient steps
+	* @param r_rate influence of regularization term
+	* @param sigma for Gaussian Kernel
+	* @param k_fold number of k splits for the data
+	* @param factory for generating instances of desired algorithm
+	*/
+	CrossValidator(const vector<float>& l_rates, const vector<float>& r_rates, const vector<float>& sigma, const unsigned& nClasses, const unsigned& nIterations, const unsigned& k_fold, Factory<M> * factory);
+
+
+	/**
 	* The fit function only takes the training data and the targets.
 	* It builds (=fits) the model of the training data.
 	*/
 	void fit(const tensor<float, M>& X, const tensor<float, M>& Y);
+
+	/**
+	* The fit function only takes the training data and the targets.
+	* It builds (=fits) the model of the training data.
+	*/
+	void fit_kernel(const tensor<float, M>& X, const tensor<float, M>& Y);
+
 
 	/**
 	* The predict function gets only the test data and uses the

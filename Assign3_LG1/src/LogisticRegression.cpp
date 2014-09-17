@@ -95,8 +95,8 @@ double LogisticRegression<M>::calcGradientDescent_2C(const tensor<float, M>& X, 
 
 
 	//update w and b
-	w -= l_rate * d_w / n_data;
-	b -= l_rate * d_b / n_data;
+	w -= l_rate * d_w / n_data + r_rate * w;
+	b -= l_rate * d_b / n_data + r_rate * b;
 
 	return isConverging(0.008, d_w);
 }
@@ -127,8 +127,8 @@ double LogisticRegression<M>::calcGradientDesc_MC(const tensor<float, M>& X, con
 	d_b /= n_data;
 
 	//update w and b
-	w -= l_rate * d_w;
-	b -= l_rate * d_b;
+	w -= l_rate * d_w + r_rate * w;
+	b -= l_rate * d_b + r_rate * b;
 
 	result = isConverging(0.001, d_w);
 
@@ -153,17 +153,16 @@ void LogisticRegression<M>::fit(const tensor<float, M>& X, const tensor<float, M
 
 	int iter = 0;
 	double con = 0.0;
-	int miss = 0;
 
 	do {
 		if (this->n_classes == 2)
 			con = calcGradientDescent_2C(X, Y);
 		else
 			con = calcGradientDesc_MC(X, Y_Multi);
-		miss = missClassified(X, Y);
-		cout<<"iter: "<<iter<<" "<<con<<" MissClass # "<<missClassified(X, Y)<<endl;
+			cout<<"iter: "<<iter<<" "<<con<<" MissClass # "<<endl;
+			//cout<<"iter: "<<iter<<" "<<con<<" MissClass # "<<missClassified(X, Y)<<endl;
 		iter++;
-	} while ((iter < this->n_iter) && (miss >= 4500));
+	} while ((iter < this->n_iter) );
 }
 
 template<typename M>
@@ -274,6 +273,20 @@ tensor<float, M> LogisticRegression<M>::getW() {
 template<typename M>
 tensor<float, M> LogisticRegression<M>::getB() {
 	return b;
+}
+
+template<typename M>
+void LogisticRegression<M>::printParamToScreen() {
+	cout<<"W: \n"<<getW()<<endl;
+	cout<<"B: \n"<<getB()<<endl;
+	//plotLearnedWeights();
+}
+
+template<typename M>
+double LogisticRegression<M>::predictWithError(const tensor<float, M>& X_test, const tensor<float, M>& Y_test) {
+	double result = 0.0;
+	result = missClassified(X_test, Y_test);
+	return result;
 }
 
 template<typename M>

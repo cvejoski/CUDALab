@@ -50,7 +50,7 @@ int main() {
 
 	vector<float> l_rate;
 	vector<float> r_rate;
-	for (int i = 1; i <= 1000000; i*=10) {
+	for (int i = 1; i <= 1000000; i *= 10) {
 		l_rate.push_back(1.0/i);
 		r_rate.push_back(1.0/i);
 		cout<<1.0/i<<endl;

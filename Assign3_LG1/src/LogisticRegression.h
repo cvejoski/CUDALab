@@ -137,6 +137,19 @@ public:
 	 */
 	tensor<float, M> getW();
 
+	/**
+	 * Print learned parameters
+	 */
+	void printParamToScreen();
+
+	/**
+	 * Predict the data and return number of errors.
+	 * @param X_test test data,
+	 * @param Y_test labels for the test data,
+	 * @return error from prediction.
+	 */
+	double predictWithError(const tensor<float, M>& X_test, const tensor<float, M>& Y_test);
+
 	virtual ~LogisticRegression();
 };
 
