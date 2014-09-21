@@ -132,6 +132,12 @@ public:
 	void fit(const tensor<float, M>& X, const tensor<float, M>& Y);
 
 	/**
+	* The fit function only takes the training data and the targets.
+	* It builds (=fits) the model of the training data.
+	*/
+	void fit_batch(const tensor<float, M>& X, const tensor<float, M>& Y, const unsigned& size);
+
+	/**
 	* The predict function gets only the test data and uses the
 	* internal (=fitted) model to predict the outcome for the
 	* test data.

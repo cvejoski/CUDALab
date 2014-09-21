@@ -70,7 +70,7 @@ void MnistDataSet<M>::createData() {
 	tensor<unsigned char, host_memory_space> trainl(extents[this->nData]);
 	tensor<unsigned char, host_memory_space> testd(extents[nTestData][this->nDim]);
 	tensor<unsigned char, host_memory_space> testl(extents[nTestData]);
-	ftraind.read((char*)traind.ptr(), traind.size());
+		ftraind.read((char*)traind.ptr(), traind.size());
 	assert(ftraind.good());
 	ftrainl.read((char*)trainl.ptr(), trainl.size());
 	assert(ftrainl.good());
@@ -101,3 +101,5 @@ MnistDataSet<M>::~MnistDataSet() {
 
 }
 
+//template class MnistDataSet<host_memory_space>;
+//template class MnistDataSet<dev_memory_space>;

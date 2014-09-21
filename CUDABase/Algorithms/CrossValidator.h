@@ -130,6 +130,10 @@ public:
 	 */
 	double predictWithError(const tensor<float, M>& X_test, const tensor<float, M>& Y_test);
 
+	/**
+	 * Get best model
+	 */
+	void printBestModel();
 	virtual ~CrossValidator();
 };
 //#include "CrossValidator.cpp"

@@ -38,7 +38,8 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.1461261341" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.1294951220" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
 								<option id="gnu.cpp.link.option.libs.1354681546" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="cuv"/>
+									<listOptionValue builtIn="false" value="cuv"/>
+									<listOptionValue builtIn="false" value="boost_system"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.2052438796" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -56,8 +57,8 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="Algorithms|DataSets|Factoris" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry excluding="KernelClassification.cpp|LogisticRegression.cpp|OnLineLinearRegression.cpp|KernelRegression.cpp|NaiveBayes.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Algorithms"/>
-						<entry excluding="XORDataSet.cpp|RegressionDataSetGaus.cpp|RegressionSigmoidDataSet.cpp|LinearDataSet.cpp|GaussianDataSet.cpp|MnistDataSet.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="DataSets"/>
+						<entry excluding="KernelClassification.cpp|OnLineLinearRegression.cpp|KernelRegression.cpp|NaiveBayes.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Algorithms"/>
+						<entry excluding="MnistDataSet.cpp|XORDataSet.cpp|RegressionDataSetGaus.cpp|RegressionSigmoidDataSet.cpp|LinearDataSet.cpp|GaussianDataSet.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="DataSets"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Factoris"/>
 					</sourceEntries>
 				</configuration>
@@ -119,8 +120,8 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="Algorithms|DataSets|Factoris" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry excluding="KernelClassification.cpp|LogisticRegression.cpp|OnLineLinearRegression.cpp|KernelRegression.cpp|NaiveBayes.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Algorithms"/>
-						<entry excluding="XORDataSet.cpp|RegressionDataSetGaus.cpp|RegressionSigmoidDataSet.cpp|LinearDataSet.cpp|GaussianDataSet.cpp|MnistDataSet.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="DataSets"/>
+						<entry excluding="KernelClassification.cpp|OnLineLinearRegression.cpp|KernelRegression.cpp|NaiveBayes.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Algorithms"/>
+						<entry excluding="MnistDataSet.cpp|XORDataSet.cpp|RegressionDataSetGaus.cpp|RegressionSigmoidDataSet.cpp|LinearDataSet.cpp|GaussianDataSet.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="DataSets"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Factoris"/>
 					</sourceEntries>
 				</configuration>

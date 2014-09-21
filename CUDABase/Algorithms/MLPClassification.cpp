@@ -55,7 +55,7 @@ void MLPClassification<M>::init() {
 
 	alpha = .0f;
 	w -= 0.5f;
-	w *= .01f;
+	w *= .0001f;
 	beta = .0f;
 	b = .0f;
 }
@@ -169,63 +169,77 @@ double MLPClassification<M>::calcGradientDesc_MC(const tensor<float, M>& X, cons
 	//Calculating sigmoid
 	calcSigmaReduced(sigma, linear_eq);
 
-	//result = maximum(calcError(sigma, Y));
+
+	kernel->calculate_derivative(derivative_o, sigma);
+
 	sigma = sigma - Y;
 
-	apply_scalar_functor(derivative_o, linear_eq, SF_TANH);
-
-	kernel->calculate_derivative(derivative_o, derivative_o);
-	apply_binary_functor(linear_eq, linear_eq, derivative_o, BF_MULT);
+	apply_binary_functor(sigma, sigma, derivative_o, BF_MULT);
 
 	//calculating delta w
+
 	kernel->calculate_derivative(derivative_h, gramMatrix);
 
-	prod(d_w_tmp, linear_eq, this->alpha, 'n', 't');
+	prod(d_w_tmp, sigma, this->alpha, 'n', 't');
 	apply_binary_functor(d_w_tmp, d_w_tmp, derivative_h, BF_MULT);
+
 	prod(d_w, X, d_w_tmp, 't', 'n', 1.f, 0.f);
 
 
 	//calculating delta b
-	reduce_to_row(d_b, d_w_tmp, RF_ADD, 2.f/n_data);
+	reduce_to_row(d_b, d_w_tmp, RF_ADD, 1.f);
 
 	//calcualting delta alpha
-	prod(d_alpha,  gramMatrix, linear_eq, 't', 'n', 2.f/n_data, 0.f);
+	prod(d_alpha,  gramMatrix, sigma, 't', 'n', 2.f/n_data, 0.f);
 
 	//calculatind delta betha
-	reduce_to_row(d_beta, sigma, RF_ADD, 2.f/X.shape(0));
+	reduce_to_row(d_beta, sigma, RF_ADD, 2.f/n_data);
 
 	//update alpha and beta
-	alpha -= l_rate * d_alpha  + this->r_rate * this->alpha;
-	beta -= l_rate * d_beta  + this->r_rate * this->beta;
+	alpha -= l_rate * d_alpha  + 2*this->r_rate * this->alpha;
+	beta -= l_rate * d_beta  + 2*this->r_rate * this->beta;
 
 	//update w and b
-	w -= l_rate * d_w + r_rate * this->w;
-	b -= l_rate * d_b + r_rate * this->b;
+	w -= l_rate * d_w + 2*r_rate * this->w;
+	b -= l_rate * d_b + 2*r_rate * this->b;
 
-	return isConverging(0.001, d_alpha);;
+	return isConverging(0.001, d_alpha);
 }
 
 template<typename M>
 void MLPClassification<M>::fit(const tensor<float, M>& X, const tensor<float, M>& Y ) {
-	tensor<float, M> Y_Multi = convertYtoM(Y);
-	//this->X = X;
-//	this->alpha = tensor<float, M>(extents[X.shape(0)][n_classes]);
-//	this->alpha = 0.f;
 
+	tensor<float, M> Y_Multi = convertYtoM(Y);
 	int iter = 0;
 	double con = 0.0;
-//	int miss = 0;
-
 	do {
 		if (this->n_classes == 2)
 			con = calcGradientDescent_2C(X, Y);
 		else
 			con = calcGradientDesc_MC(X, Y_Multi);
-//		miss = missClassified(X, Y);
 		cout<<"iter: "<<iter<<" "<<con<<" MissClass Train# "<<missClassified(X, Y)<<endl;
 		iter++;
-	} while ((iter < this->n_iter));
-//} while ((iter < this->n_iter) && (con > 0.00001));
+	} while ((iter < this->n_iter) && (con > 0.00001));
+}
+
+template<typename M>
+void MLPClassification<M>::fit_batch(const tensor<float, M>& X, const tensor<float, M>& Y, const unsigned& size) {
+	unsigned batch_size = X.shape(0) / size;
+	tensor<float, M> Y_Multi = convertYtoM(Y);
+
+	int iter = 0;
+	double con = 0.0;
+	do {
+		for (unsigned b = 0, bb = batch_size; b <= X.shape(0);
+			b += batch_size, bb = ((bb + batch_size) > X.shape(0)) ? bb + batch_size : X.shape(0)) {
+			if (this->n_classes == 2)
+				con = calcGradientDescent_2C(X, Y);
+			else
+				con = calcGradientDesc_MC(X, Y_Multi);
+			cout<<"iter: "<<iter<<" "<<con<<" MissClass Train# "<<missClassified(X, Y)<<endl;
+			}
+		iter++;
+	} while ((iter < this->n_iter) && (con > 0.00001));
 }
 
 template<typename M>
