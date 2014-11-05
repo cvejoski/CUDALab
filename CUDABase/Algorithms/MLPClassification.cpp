@@ -54,10 +54,10 @@ void MLPClassification<M>::init() {
 //	add_rnd_normal(beta);
 
 	alpha = .0f;
-	w -= 0.5f;
-	w *= .0001f;
+	//w -= 0.5f;
+	w *= -1.3f;
 	beta = .0f;
-	b = .0f;
+	b = .9f;
 }
 
 template<typename M>
@@ -207,6 +207,21 @@ double MLPClassification<M>::calcGradientDesc_MC(const tensor<float, M>& X, cons
 }
 
 template<typename M>
+void MLPClassification<M>::fit(const tensor<float, M>& X, const tensor<float, M>& Y, const tensor<float, M>& X_TEST, const tensor<float, M>& Y_TEST) {
+	tensor<float, M> Y_Multi = convertYtoM(Y);
+		int iter = 0;
+		double con = 0.0;
+		do {
+			if (this->n_classes == 2)
+				con = calcGradientDescent_2C(X, Y);
+			else
+				con = calcGradientDesc_MC(X, Y_Multi);
+			//cout<<"iter: "<<iter<<" "<<con<<" MissClass Train# "<<missClassified(X, Y)<<" MissClass Test# "<<predictWithError(X_TEST, Y_TEST)<<endl;
+			iter++;
+		} while ((iter < this->n_iter) && (con > 0.00001));
+}
+
+template<typename M>
 void MLPClassification<M>::fit(const tensor<float, M>& X, const tensor<float, M>& Y ) {
 
 	tensor<float, M> Y_Multi = convertYtoM(Y);
@@ -223,7 +238,7 @@ void MLPClassification<M>::fit(const tensor<float, M>& X, const tensor<float, M>
 }
 
 template<typename M>
-void MLPClassification<M>::fit_batch(const tensor<float, M>& X, const tensor<float, M>& Y, const unsigned& size) {
+void MLPClassification<M>::fit_batch(const tensor<float, M>& X, const tensor<float, M>& Y, const tensor<float, M>& X_TEST, const tensor<float, M>& Y_TEST, const unsigned& size) {
 	unsigned batch_size = X.shape(0) / size;
 	tensor<float, M> Y_Multi = convertYtoM(Y);
 
@@ -236,7 +251,7 @@ void MLPClassification<M>::fit_batch(const tensor<float, M>& X, const tensor<flo
 				con = calcGradientDescent_2C(X, Y);
 			else
 				con = calcGradientDesc_MC(X, Y_Multi);
-			cout<<"iter: "<<iter<<" "<<con<<" MissClass Train# "<<missClassified(X, Y)<<endl;
+			cout<<"iter: "<<iter<<" "<<con<<" MissClass Train# "<<missClassified(X, Y)<<" MissClass Test# "<<predictWithError(X_TEST, Y_TEST)<<endl;
 			}
 		iter++;
 	} while ((iter < this->n_iter) && (con > 0.00001));
@@ -395,6 +410,17 @@ double MLPClassification<M>::predictWithError(const tensor<float, M>& X_test, co
 template<typename M>
 void MLPClassification<M>::printParamToScreen() {
 
+}
+
+template<typename M>
+void MLPClassification<M>::confusionMatrix(const tensor<float, M>& X_test, const tensor<float, M>& Y_test) {
+	tensor<float, host_memory_space> matrix(extents[this->n_classes][this->n_classes]);
+	matrix = 0.f;
+	tensor<float, host_memory_space> predicted = predict(X_test);
+	for ( unsigned i = 0; i < Y_test.shape(0); i++ ) {
+		matrix(Y_test[i], predicted[i])++;
+	}
+	cout<<"CONFUSION MATRIX:\n"<<matrix<<endl;
 }
 
 template<typename M>

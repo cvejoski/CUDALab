@@ -7,6 +7,10 @@
 
 #include "NearestNeighbor.h"
 #include <cuv.hpp>
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include <sstream>
 
 #include <string>
 using namespace cuv;
@@ -215,7 +219,7 @@ void NearestNeighbor<T, M>::saveToFile(char* fileName, tensor<T, M>& data, tenso
 	ofstream fs(fileName);
 	if(!fs){
 		cerr<<"Cannot open the output file."<<endl;
-		exit(1);
+		//exit(1);
 	}
 	tensor<T, host_memory_space> t = data;
 	tensor<T, host_memory_space> l = labels;
@@ -299,11 +303,11 @@ void NearestNeighbor<T, M>::saveCorrectIncorrect() {
 	ofstream incorr("TestIncorr.dat");
 		if(!corr){
 			cerr<<"Cannot open the output file TestCorrect.dat."<<endl;
-			exit(1);
+			//exit(1);
 		}
 		if(!corr){
 					cerr<<"Cannot open the output file TestIncorr.dat."<<endl;
-					exit(1);
+					//exit(1);
 				}
 		tensor<T, host_memory_space> d = *testDS;
 		tensor<T, host_memory_space> e = *testL;
@@ -332,15 +336,12 @@ void NearestNeighbor<T, M>::exportMINST() {
 		tensor<T, M> t = (*testDS)[indices[**(miss+i)]];
 		int l = (*testL)[**(miss+i)];
 		std::stringstream out;
-		out<<"rec_"<<**(miss+i)<<"_";
-		out << l;
 		std::string a = out.str();
 		l = *(*(miss+i)+1);
 		out<<"_clas_";
 		out<<l;
 		std::string b = out.str();
-
-		string filename = "./Results/Minst/Test_Record_" + b + ".ppm";
+		string filename = "./Results/Minst/Test_" + b + ".ppm";
 		const char* c = filename.c_str();
 		ofstream f(c);
 		f<<"P2\n28 28\n255\n";

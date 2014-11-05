@@ -5,6 +5,7 @@
  *      Author: cve
  */
 
+#include "time.h"
 #include "src/DataSet.h"
 #include "src/LogisticRegression.h"
 
@@ -13,7 +14,7 @@
 #define MEMORY dev_memory_space
 #define N_DIM 784
 #define N_CLASSES 10
-#define N_ITERATIONS 2000
+#define N_ITERATIONS 4000
 
 
 int main() {
@@ -59,11 +60,14 @@ int main() {
 	MnistDataSet<MEMORY> mnist(784, 60000, 10000, 10);
 	mnist.read();
 
-	LogisticRegression<MEMORY> reg(0.01, 0.001, N_ITERATIONS, N_CLASSES, N_DIM);
+	LogisticRegression<MEMORY> reg(0.0001, 0.0000001, N_ITERATIONS, N_CLASSES, N_DIM);
 
 //	reg.fit(train.getData(), train.getLabels());
-reg.fit(mnist.getX_train(), mnist.getY_train());
-
+	double time = 0.0;
+	clock_t start = clock();
+	reg.fit(mnist.getX_train(), mnist.getY_train());
+	time += (double)(clock()-start)/CLOCKS_PER_SEC;
+	cout<<"TIME: "<<time<<endl;
 	cout<<"Miss Classified # "<<mnist.missClass(reg.predict(mnist.getX_test()))<<endl;
 
 

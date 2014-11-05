@@ -132,10 +132,17 @@ public:
 	void fit(const tensor<float, M>& X, const tensor<float, M>& Y);
 
 	/**
+		* The fit function only takes the training data and the targets.
+		* It builds (=fits) the model of the training data.
+		*/
+	void fit(const tensor<float, M>& X, const tensor<float, M>& Y, const tensor<float, M>& X_TEST, const tensor<float, M>& Y_TEST);
+
+
+	/**
 	* The fit function only takes the training data and the targets.
 	* It builds (=fits) the model of the training data.
 	*/
-	void fit_batch(const tensor<float, M>& X, const tensor<float, M>& Y, const unsigned& size);
+	void fit_batch(const tensor<float, M>& X, const tensor<float, M>& Y, const tensor<float, M>& X_TEST, const tensor<float, M>& Y_TEST, const unsigned& size);
 
 	/**
 	* The predict function gets only the test data and uses the
@@ -178,6 +185,8 @@ public:
 	 * @return error from prediction.
 	 */
 	double predictWithError(const tensor<float, M>& X_test, const tensor<float, M>& Y_test);
+
+	void confusionMatrix(const tensor<float, M>& X_test, const tensor<float, M>& Y_test);
 
 	virtual ~MLPClassification();
 };

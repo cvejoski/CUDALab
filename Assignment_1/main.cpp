@@ -58,10 +58,14 @@ void pointsClass() {
 }
 
 void minstClass() {
+	double time = 0.0;
 		NearestNeighbor<float, dev_memory_space> t;
 		t.initializeMINST(784, 60000, 10000);
 		t.readMINST();
 		cout<<"CALCULATING DISTANCE\n";
+		clock_t start = clock();
 		t.classifiedMINST();
+		time += (double)(clock()-start)/CLOCKS_PER_SEC;
+		cout<<"TIME:"<<time<<endl;
 		t.exportMINST();
 }

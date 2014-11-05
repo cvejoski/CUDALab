@@ -159,8 +159,8 @@ void LogisticRegression<M>::fit(const tensor<float, M>& X, const tensor<float, M
 			con = calcGradientDescent_2C(X, Y);
 		else
 			con = calcGradientDesc_MC(X, Y_Multi);
-			cout<<"iter: "<<iter<<" "<<con<<" MissClass # "<<endl;
-			//cout<<"iter: "<<iter<<" "<<con<<" MissClass # "<<missClassified(X, Y)<<endl;
+			//cout<<"iter: "<<iter<<" "<<con<<" MissClass # "<<endl;
+			cout<<"iter: "<<iter<<" "<<con<<" MissClass # "<<missClassified(X, Y)<<endl;
 		iter++;
 	} while ((iter < this->n_iter) );
 }

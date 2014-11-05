@@ -51,7 +51,7 @@ float CrossValidator<M>::fitModel(const tensor<float, M>& X, const tensor<float,
 		error += model->predictWithError(splitX.at(0), splitY.at(0));
 		splitX.clear();
 		splitY.clear();
-	}
+			}
 	return error / k_fold;
 }
 
@@ -63,9 +63,13 @@ void CrossValidator<M>::fitHyperParamethers(const tensor<float, M>& X,
 		for (unsigned j = 0; j < this->r_rates.size(); j++) {
 			float l_rate = this->l_rates.at(i);
 			float r_rate = this->r_rates.at(j);
+			cout<<" eta: "<<(l_rates.at(i));
+			cout<<" lambda: "<<r_rates.at(j);
+			cout<<" Error: ";
 			MLalgorithm<M>* model = factory->generate(l_rate, r_rate,
 					nIterations, nClasses, X.shape(1));
 			meanError.push_back(fitModel(X, Y, model));
+			cout<<meanError.at(meanError.size()-1)<<endl;
 			models.push_back(model);
 		}
 	}
@@ -81,7 +85,6 @@ void CrossValidator<M>::fitHyperParamethersSigma(const tensor<float, M>& X,
 				float l_rate = this->l_rates.at(i);
 				float r_rate = this->r_rates.at(j);
 				float sigma = this->sigma.at(q);
-				cout<<"MODEL :"<<i+j+q<<endl;
 				cout<<" eta: "<<(l_rates.at(i));
 				cout<<" lambda: "<<r_rates.at(j);
 				cout<<" sigma: "<<sigma<<" Error: ";
@@ -115,10 +118,9 @@ void CrossValidator<M>::fit(const tensor<float, M>& X, const tensor<float, M>& Y
 	fitHyperParamethers(X, meanError, Y, models);
 	this->bestModel = findBestModel(meanError, models);
 	this->bestModel->fit(X, Y);
-	for (unsigned i = 0; i < l_rates.size(); i++) {
-		for (unsigned j = 0; j < r_rates.size(); j++)
-			cout<<"MODEL :"<<i+j<<" eta: "<<(l_rates.at(i))<<" lambda: "<<r_rates.at(j)<<" error # "<<meanError.at(i+j)<<endl;
-	}
+//	cout<<"BEST MODEL PARAMETERS:\n";
+//	bestModel->printParamToScreen();
+
 }
 
 template<typename M>
